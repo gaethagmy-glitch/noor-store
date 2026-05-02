@@ -230,10 +230,10 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 .sz-add-row input{flex:1;padding:.5rem .7rem;border:1px solid var(--rose-light);font-family:'Tajawal',sans-serif;font-size:.88rem;outline:none;}
 .sz-add-row button{padding:.5rem 1rem;background:var(--rose);color:#fff;border:none;cursor:pointer;font-family:'Tajawal',sans-serif;font-size:.82rem;}
 /* img upload */
-.img-upload-area{border:2px dashed var(--rose-light);padding:1.2rem;text-align:center;cursor:pointer;transition:border-color .2s;position:relative;}
+.img-upload-area{border:2px dashed var(--rose-light);padding:1.2rem;text-align:center;cursor:pointer;transition:border-color .2s;position:relative;overflow:hidden;}
 .img-upload-area:hover{border-color:var(--rose);}
-.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;}
-.img-upload-area p{font-size:.85rem;color:var(--muted);}
+.img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;font-size:0;}
+.img-upload-area p{font-size:.85rem;color:var(--muted);pointer-events:none;}
 .img-preview-wrap{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem;}
 .img-preview-item{position:relative;width:70px;height:88px;}
 .img-preview-item img{width:100%;height:100%;object-fit:cover;object-position:top;}
@@ -290,67 +290,13 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
 @media(max-width:768px){
-  nav{padding:.7rem 1rem;}.nav-links{display:none;}
-  .nav-logo-text{font-size:.88rem;letter-spacing:.06em;}
-  .nav-logo-svg{width:32px;height:32px;}
-  .btn-admin{padding:.3rem .6rem;font-size:.7rem;}
-  .cart-btn span{display:none;}
-
-  .hero{grid-template-columns:1fr;min-height:auto;padding-top:58px;}
-  .hero-img-side{height:65vw;order:-1;}
-  .hero-text{padding:1.8rem 1.2rem 2rem;}
-  .hero-title{font-size:1.9rem;}
-  .hero-desc{font-size:.88rem;margin-top:1rem;max-width:100%;}
-  .hero-cta{flex-direction:column;gap:.6rem;margin-top:1.5rem;}
-  .btn-primary,.btn-outline{width:100%;text-align:center;padding:.75rem;}
-  .hero-badge{bottom:.8rem;left:.8rem;padding:.6rem .9rem;}
-  .hero-badge strong{font-size:.95rem;}
-
-  .section{padding:3rem 1rem;}
-  .products-grid{grid-template-columns:1fr 1fr;gap:.7rem;}
-  .prod-name{font-size:.88rem;}.prod-price{font-size:.78rem;}
-
-  /* MODAL FIX */
-  .overlay{padding:.5rem;align-items:flex-end;}
-  .prod-modal{
-    grid-template-columns:1fr;
-    width:100%;
-    max-width:100%;
-    max-height:92vh;
-    overflow-y:auto;
-    border-radius:16px 16px 0 0;
-  }
-  .modal-gallery{height:52vw;min-height:180px;overflow:hidden;}
-  .modal-gallery img{width:100%;height:100%;object-fit:cover;object-position:top;}
-  .gal-arrow{width:28px;height:28px;font-size:.95rem;}
-  .modal-body{padding:1.2rem 1rem 2rem;}
-  .modal-body h2{font-size:1.25rem;}
-  .modal-price{font-size:.95rem;margin-bottom:.8rem;}
-  .modal-desc{font-size:.82rem;margin-bottom:1rem;}
-  .size-lbl{font-size:.72rem;}
-  .sz{width:38px;height:38px;font-size:.8rem;}
-  .sizes{gap:.4rem;margin-bottom:1rem;}
-  .modal-close-btn{top:.6rem;left:.6rem;width:28px;height:28px;font-size:1rem;}
-
-  .about-strip{grid-template-columns:1fr;}
-  .about-img{height:55vw;}
-  .about-txt{padding:2rem 1.2rem;}
-  .about-txt .sec-title{font-size:1.4rem;}
-
-  .feats{grid-template-columns:1fr 1fr;gap:1rem;}
-  .feat h3{font-size:.88rem;}.feat p{font-size:.76rem;}
-  .feat-icon{width:38px;height:38px;font-size:1rem;}
-
-  footer{grid-template-columns:1fr;gap:1.5rem;padding:2.5rem 1.2rem 2rem;}
+  nav{padding:.9rem 1.2rem;}.nav-links{display:none;}
+  .hero{grid-template-columns:1fr;}.hero-img-side{height:60vw;}.hero-text{padding:3rem 1.5rem;}
+  .products-grid{grid-template-columns:1fr 1fr;gap:1rem;}
+  .about-strip{grid-template-columns:1fr;}.feats{grid-template-columns:1fr 1fr;}
+  footer{grid-template-columns:1fr;gap:2rem;}.section{padding:4rem 1.5rem;}
+  .prod-modal{grid-template-columns:1fr;}.modal-gallery img{height:260px;}
   .cart-panel{width:100%;}
-  .co-modal{width:100%;max-width:100%;border-radius:16px 16px 0 0;padding:1.5rem 1.2rem;}
-  .admin-box{width:100%;max-width:100%;border-radius:16px 16px 0 0;max-height:92vh;}
-  .ship-opts{flex-direction:column;}
-  .toast{width:92%;white-space:normal;text-align:center;justify-content:center;}
-}
-@media(max-width:380px){
-  .hero-title{font-size:1.6rem;}
-  .products-grid{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -580,10 +526,6 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
       <h3>دخول الأدمن</h3>
       <p>هذه اللوحة مخصصة لصاحبة المتجر فقط</p>
       <input type="password" id="a-pass" placeholder="كلمة السر" onkeydown="if(event.key==='Enter')checkLogin()">
-      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;">
-        <input type="checkbox" id="a-remember" style="width:16px;height:16px;accent-color:var(--charcoal);cursor:pointer;">
-        <label for="a-remember" style="font-size:.85rem;color:var(--muted);cursor:pointer;">تذكرني على هذا الجهاز</label>
-      </div>
       <button class="btn-login" onclick="checkLogin()">دخول</button>
       <p class="login-err" id="login-err">❌ كلمة السر غير صحيحة</p>
     </div>
@@ -615,9 +557,9 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
           <!-- IMAGES -->
           <div class="afg">
             <label>صور المنتج (PNG, JPG)</label>
-            <div class="img-upload-area" onclick="document.getElementById('a-img-input').click()">
-              <input type="file" id="a-img-input" accept="image/*" multiple onchange="handleImgs(this)">
-              <p>📸 اضغطي هنا لرفع الصور<br><small>PNG, JPG — يمكن رفع أكثر من صورة</small></p>
+            <div class="img-upload-area">
+              <input type="file" id="a-img-input" accept="image/*" multiple capture="environment" onchange="handleImgs(this)">
+              <p>📸 اضغطي هنا لرفع الصور<br><small>من المعرض أو الكاميرا — يمكن رفع أكثر من صورة</small></p>
             </div>
             <div class="img-preview-wrap" id="a-img-preview"></div>
             <p class="hint">أول صورة ستظهر كغلاف المنتج في المتجر.</p>
@@ -903,8 +845,6 @@ function closeSuccess(){ document.getElementById('success-overlay').classList.re
 function openAdmin(){
   document.getElementById('a-pass').value='';
   document.getElementById('login-err').style.display='none';
-  // تحقق من تذكرني
-  if(localStorage.getItem('noor_admin')==='1') adminIn=true;
   if(adminIn){ showPanel(); }
   else { document.getElementById('admin-login-area').style.display='block'; document.getElementById('admin-panel-area').style.display='none'; }
   document.getElementById('admin-overlay').classList.add('open'); lock();
@@ -912,13 +852,8 @@ function openAdmin(){
 function closeAdmin(){ document.getElementById('admin-overlay').classList.remove('open'); unlock(); }
 function closeAdminOv(e){ if(e.target===document.getElementById('admin-overlay')) closeAdmin(); }
 function checkLogin(){
-  if(document.getElementById('a-pass').value===PASS){
-    adminIn=true;
-    if(document.getElementById('a-remember').checked){
-      localStorage.setItem('noor_admin','1');
-    }
-    showPanel();
-  } else document.getElementById('login-err').style.display='block';
+  if(document.getElementById('a-pass').value===PASS){ adminIn=true; showPanel(); }
+  else document.getElementById('login-err').style.display='block';
 }
 function showPanel(){
   document.getElementById('admin-login-area').style.display='none';
