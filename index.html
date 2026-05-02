@@ -470,7 +470,7 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
     <h4>خدمة العملاء</h4>
     <ul>
       <li><span onclick="toast('سياسة الاستبدال: خلال 48 ساعة من الاستلام 🌸')">سياسة الاستبدال</span></li>
-      <li><span onclick="toast('دمشق: 25,000 ل.س | ريف: 50,000 ل.س | محافظات: حسب شركة الشحن')">أجور التوصيل</span></li>
+      <li><span onclick="toast('دمشق: 25,000 ل.س | ريف: 45,000 ل.س | محافظات: حسب شركة الشحن')">أجور التوصيل</span></li>
       <li><span onclick="toast('للمساعدة في المقاسات تواصلي معنا عبر واتساب 📏')">دليل المقاسات</span></li>
       <li><span onclick="openCart()">متابعة الطلب</span></li>
     </ul>
@@ -478,8 +478,10 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
   <div>
     <h4>تواصلي معنا</h4>
     <ul>
-      <li><a href="https://www.instagram.com/noor.t.turkish?igsh=MXZ0a2c4azM4cnRxYw==" target="_blank">انستقرام</a></li>
+      <li><a href="https://instagram.com" target="_blank">انستقرام</a></li>
+      <li><a href="https://tiktok.com" target="_blank">تيك توك</a></li>
       <li><span onclick="openWa()">واتساب</span></li>
+      <li><a href="mailto:Noor.t.alajmi@gmail.com">البريد الإلكتروني</a></li>
     </ul>
   </div>
 </footer>
@@ -651,27 +653,39 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 <div class="toast" id="toast-el"><span id="toast-txt"></span></div>
 
 <script>
+// ── SUPABASE CONFIG ──
+const SUPA_URL = 'https://kvnivxwjmbtniaculpyh.supabase.co';
+const SUPA_KEY = 'sb_publishable_X3-7SbTUjsWNAcmQJvhuxg_shSncfLT';
+
+async function db(path, method='GET', body=null){
+  const opts = {
+    method,
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': method==='POST' ? 'return=representation' : ''
+    }
+  };
+  if(body) opts.body = JSON.stringify(body);
+  const r = await fetch(SUPA_URL + '/rest/v1/' + path, opts);
+  if(!r.ok){ const e=await r.text(); console.error(e); return null; }
+  const txt = await r.text();
+  return txt ? JSON.parse(txt) : null;
+}
+
 // ── CONFIG ──
 const PASS = 'Nn0989501120';
-const DEL = { damascus:25000, rural:50000, govs:null }; // govs = شركة شحن
+const DEL = { damascus:25000, rural:45000, govs:null };
 const WA = '963981112670';
-const FB = '/mnt/user-data/uploads/6021502995075370096.jpg';
+const FB = 'https://kvnivxwjmbtniaculpyh.supabase.co/storage/v1/object/public/placeholder/default.jpg';
 
 // ── STATE ──
-let products = [
-  { id:1, name:'فستان الياسمين', price:'89,000 ل.س', origPrice:89000, discount:0,
-    desc:'فستان طويل فاخر بنقشة زهرية راقية، مصنوع من قماش مريح ومتين.',
-    imgs:['/mnt/user-data/uploads/model_with_matching_hijab.png','/mnt/user-data/uploads/6021502995075370096.jpg'],
-    sizes:['S','M','L','XL','XXL'], tag:'الأكثر مبيعاً', outOfStock:false },
-  { id:2, name:'عباءة الورد', price:'75,000 ل.س', origPrice:75000, discount:0,
-    desc:'عباءة أنيقة بتصميم عصري مستوحى من أزقة إسطنبول، خامة ناعمة ومريحة.',
-    imgs:['/mnt/user-data/uploads/6021502995075370096.jpg','/mnt/user-data/uploads/model_with_matching_hijab.png'],
-    sizes:['M','L','XL'], tag:'جديد', outOfStock:false }
-];
+let products = [];
 let cart=[], orders=[];
 let curProd=null, curImg=0, adminIn=false;
 let newProdSizes=[], newProdImgs=[];
-let selShipCo='qadmus'; // default shipping company for govs
+let selShipCo='qadmus';
 
 // ── UTILS ──
 function goto(id){ document.getElementById(id)?.scrollIntoView({behavior:'smooth'}); }
@@ -686,10 +700,32 @@ function pNum(s){ return parseInt((s||'0').replace(/[^0-9]/g,''))||0; }
 function fmt(n){ return n.toLocaleString('ar-SY')+' ل.س'; }
 function lock(){ document.body.style.overflow='hidden'; }
 function unlock(){ document.body.style.overflow=''; }
-function calcDiscounted(orig, pct){ return Math.round(orig*(1-pct/100)); }
-function fmtPrice(orig, disc){
-  if(!disc) return fmt(orig);
-  return `<del>${fmt(orig)}</del> <strong>${fmt(calcDiscounted(orig,disc))}</strong> <span class="discount-badge">-${disc}%</span>`;
+function calcDiscounted(orig,pct){ return Math.round(orig*(1-pct/100)); }
+
+// ── LOAD PRODUCTS FROM SUPABASE ──
+async function loadProducts(){
+  const data = await db('products?select=*&order=created_at.desc');
+  if(data){
+    products = data.map(p=>({
+      id: p.id,
+      name: p.name,
+      price: p.price,
+      origPrice: p.orig_price,
+      discount: p.discount||0,
+      desc: p.description||'',
+      imgs: p.images||[],
+      sizes: p.sizes||[],
+      tag: p.tag||'',
+      outOfStock: p.out_of_stock||false
+    }));
+  }
+  renderProds();
+  showLoading(false);
+}
+
+function showLoading(show){
+  const g=document.getElementById('products-grid');
+  if(show) g.innerHTML='<p style="color:var(--muted);text-align:center;grid-column:1/-1;padding:3rem">⏳ جاري تحميل المنتجات...</p>';
 }
 
 // ── RENDER PRODUCTS ──
@@ -702,7 +738,7 @@ function renderProds(){
     return `
     <div class="product-card${p.outOfStock?' prod-card-disabled':''}" onclick="${p.outOfStock?'':('openProd('+p.id+')')}">
       <div class="prod-img-wrap">
-        <img src="${p.imgs[0]}" alt="${p.name}" loading="lazy" onerror="this.src='${FB}'">
+        <img src="${p.imgs[0]||''}" alt="${p.name}" loading="lazy" onerror="this.src='https://placehold.co/400x500/F5EAE7/C9908A?text=نور'">
         ${p.tag?`<span class="prod-tag">${p.tag}</span>`:''}
         ${p.discount?`<span class="prod-tag" style="top:auto;bottom:1rem;background:var(--gold)">-${p.discount}%</span>`:''}
         ${p.outOfStock?`<div class="out-of-stock-badge"><span>نفذت الكمية</span></div>`:`
@@ -730,7 +766,6 @@ function openProd(id){
     : curProd.price;
   document.getElementById('mod-price').innerHTML=priceDisp;
   document.getElementById('mod-desc').textContent=curProd.desc;
-  // sizes
   const sw=document.getElementById('mod-sizes');
   if(curProd.sizes&&curProd.sizes.length){
     document.getElementById('mod-sizes-wrap').style.display='block';
@@ -739,7 +774,6 @@ function openProd(id){
     document.getElementById('mod-sizes-wrap').style.display='none';
     sw.innerHTML='';
   }
-  // gallery dots
   document.getElementById('gal-dots').innerHTML=curProd.imgs.map((_,i)=>`<div class="gal-dot${i===0?' on':''}" onclick="goImg(${i})"></div>`).join('');
   document.getElementById('prod-overlay').classList.add('open'); lock();
 }
@@ -777,7 +811,7 @@ function addToCart(prod,size){
   const finalPrice = prod.discount ? fmt(calcDiscounted(prod.origPrice,prod.discount)) : prod.price;
   const ex=cart.find(i=>i.id===prod.id&&i.size===size);
   if(ex) ex.qty++;
-  else cart.push({id:prod.id,name:prod.name,price:finalPrice,origPrice:prod.origPrice,discount:prod.discount,img:prod.imgs[0],size,qty:1});
+  else cart.push({id:prod.id,name:prod.name,price:finalPrice,origPrice:prod.origPrice,discount:prod.discount,img:prod.imgs[0]||'',size,qty:1});
   updCount(); renderCart();
   toast(`✅ "${prod.name}"${size?' ('+size+')':''} أُضيفت للسلة`);
 }
@@ -787,7 +821,7 @@ function renderCart(){
   if(!cart.length){ b.innerHTML='<p class="cart-empty-msg">سلتك فارغة 🌸<br>ابدئي التسوق من المجموعة</p>'; calcCartTotals(); return; }
   b.innerHTML=cart.map((it,i)=>`
     <div class="c-item">
-      <img src="${it.img}" alt="${it.name}" onerror="this.src='${FB}'">
+      <img src="${it.img}" alt="${it.name}" onerror="this.src='https://placehold.co/70x90/F5EAE7/C9908A?text=نور'">
       <div class="c-item-info">
         <div class="c-item-name">${it.name}</div>
         ${it.size?`<div class="c-item-sz">المقاس: ${it.size}</div>`:''}
@@ -838,8 +872,8 @@ function selShip(co){
 }
 function getDeliveryFee(zone){
   if(zone==='damascus') return 25000;
-  if(zone==='rural') return 50000;
-  if(zone==='govs') return "حسب شركة الشحن";  // شحن محافظات عبر شركة
+  if(zone==='rural') return 45000;
+  if(zone==='govs') return 50000;
   return 0;
 }
 function getZoneLabel(zone){
@@ -857,10 +891,7 @@ function zoneChanged(){
     note.style.display='block';
     note.innerHTML=`منطقة: <strong>${getZoneLabel(z)}</strong> — أجور الشحن: <strong>${fmt(fee)}</strong>`;
     shipDiv.style.display=z==='govs'?'block':'none';
-  } else {
-    note.style.display='none';
-    shipDiv.style.display='none';
-  }
+  } else { note.style.display='none'; shipDiv.style.display='none'; }
   updCoSum();
 }
 function updCoSum(){
@@ -874,7 +905,9 @@ function updCoSum(){
     <div class="sum-row"><span>التوصيل${shipLabel}</span><span>${del?fmt(del):(z?'—':'اختاري المنطقة')}</span></div>
     <div class="sum-row tot"><span>الإجمالي</span><span>${del?fmt(sub+del):'—'}</span></div>`;
 }
-function confirmOrder(){
+
+// ── CONFIRM ORDER → SUPABASE ──
+async function confirmOrder(){
   const name=document.getElementById('co-name').value.trim();
   const phone=document.getElementById('co-phone').value.trim();
   const zone=document.getElementById('co-zone').value;
@@ -887,16 +920,22 @@ function confirmOrder(){
   const sub=cart.reduce((s,i)=>s+pNum(i.price)*i.qty,0);
   const oid='NR-'+Date.now().toString().slice(-6);
   const shipCo=zone==='govs'?(selShipCo==='qadmus'?'قدموس':'هرم / مسارات'):null;
-  orders.push({
-    id:oid,name,phone,zone:getZoneLabel(zone),addr,
+  const orderData = {
+    id:oid, customer_name:name, phone, zone:getZoneLabel(zone),
+    address:addr, ship_company:shipCo,
     notes:document.getElementById('co-notes').value.trim(),
-    shipCo,items:[...cart],sub,del,total:sub+del,
-    date:new Date().toLocaleString('ar-SY')
-  });
-  cart=[]; updCount(); renderCart();
-  closeCheckout();
-  document.getElementById('success-num').textContent='رقم طلبك: '+oid;
-  document.getElementById('success-overlay').classList.add('open'); lock();
+    items:cart, subtotal:sub, delivery:del, total:sub+del
+  };
+  toast('⏳ جاري تأكيد الطلب...');
+  const result = await db('orders', 'POST', orderData);
+  if(result){
+    cart=[]; updCount(); renderCart();
+    closeCheckout();
+    document.getElementById('success-num').textContent='رقم طلبك: '+oid;
+    document.getElementById('success-overlay').classList.add('open'); lock();
+  } else {
+    toast('❌ خطأ في الاتصال، حاولي مجدداً');
+  }
 }
 function closeSuccess(){ document.getElementById('success-overlay').classList.remove('open'); unlock(); window.scrollTo({top:0,behavior:'smooth'}); }
 
@@ -914,9 +953,7 @@ function closeAdminOv(e){ if(e.target===document.getElementById('admin-overlay')
 function checkLogin(){
   if(document.getElementById('a-pass').value===PASS){
     adminIn=true;
-    if(document.getElementById('a-remember').checked){
-      localStorage.setItem('noor_admin','1');
-    }
+    if(document.getElementById('a-remember').checked) localStorage.setItem('noor_admin','1');
     showPanel();
   } else document.getElementById('login-err').style.display='block';
 }
@@ -934,12 +971,11 @@ function aTab(id,el){
   if(id==='orders') renderAOrders();
 }
 
-// Sizes in add form
+// sizes
 function addNewSize(){
   const inp=document.getElementById('new-sz-input');
-  const v=inp.value.trim();
-  if(!v)return;
-  if(newProdSizes.includes(v)){ toast('هذا المقاس موجود مسبقاً'); return; }
+  const v=inp.value.trim(); if(!v)return;
+  if(newProdSizes.includes(v)){ toast('هذا المقاس موجود'); return; }
   newProdSizes.push(v); inp.value=''; renderNewSizes();
 }
 function removeNewSize(i){ newProdSizes.splice(i,1); renderNewSizes(); }
@@ -948,7 +984,7 @@ function renderNewSizes(){
     <div class="sz-tag">${s}<button onclick="removeNewSize(${i})">×</button></div>`).join('');
 }
 
-// Image upload
+// images
 function handleImgs(input){
   const files=Array.from(input.files);
   files.forEach(f=>{
@@ -967,7 +1003,8 @@ function renderImgPreview(){
     </div>`).join('');
 }
 
-function addProd(){
+// ── ADD PRODUCT → SUPABASE ──
+async function addProd(){
   const name=document.getElementById('a-name').value.trim();
   const priceRaw=document.getElementById('a-price').value.trim();
   const disc=parseInt(document.getElementById('a-discount').value)||0;
@@ -975,49 +1012,60 @@ function addProd(){
   const tag=document.getElementById('a-tag').value;
   if(!name||!priceRaw){ toast('⚠️ الاسم والسعر مطلوبان'); return; }
   const origPrice=pNum(priceRaw)||0;
-  const finalPrice=disc?calcDiscounted(origPrice,disc):origPrice;
-  const nid=products.length?Math.max(...products.map(p=>p.id))+1:1;
-  products.push({
-    id:nid,name,price:fmt(origPrice),origPrice,discount:disc,
-    desc,imgs:newProdImgs.length?[...newProdImgs]:[FB],
-    sizes:[...newProdSizes],tag,outOfStock:false
-  });
-  // reset
-  ['a-name','a-price','a-discount','a-desc'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('a-tag').value='';
-  newProdSizes=[]; newProdImgs=[]; renderNewSizes(); renderImgPreview();
-  renderProds(); renderAProds();
-  toast(`✅ تمت إضافة "${name}"`);
+  const prodData = {
+    name, price:fmt(origPrice), orig_price:origPrice, discount:disc,
+    description:desc, images:newProdImgs.length?[...newProdImgs]:null,
+    sizes:[...newProdSizes], tag, out_of_stock:false
+  };
+  toast('⏳ جاري الحفظ...');
+  const result = await db('products', 'POST', prodData);
+  if(result){
+    ['a-name','a-price','a-discount','a-desc'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('a-tag').value='';
+    newProdSizes=[]; newProdImgs=[]; renderNewSizes(); renderImgPreview();
+    await loadProducts();
+    renderAProds();
+    toast(`✅ تمت إضافة "${name}"`);
+  } else { toast('❌ خطأ في الحفظ، حاولي مجدداً'); }
 }
 
-// Edit product
+// Edit
 let editId=null;
-function toggleEdit(id){
-  if(editId===id){ editId=null; renderAProds(); return; }
-  editId=id; renderAProds();
-}
-function saveEdit(id){
+function toggleEdit(id){ if(editId===id){ editId=null; renderAProds(); return; } editId=id; renderAProds(); }
+
+async function saveEdit(id){
   const p=products.find(x=>x.id===id); if(!p)return;
   const newPrice=document.getElementById('edit-price-'+id).value.trim();
   const newDisc=parseInt(document.getElementById('edit-disc-'+id).value)||0;
-  if(newPrice){ p.origPrice=pNum(newPrice); p.price=newPrice; }
-  p.discount=newDisc;
-  p.outOfStock=document.getElementById('edit-oos-'+id).checked;
-  renderProds(); renderAProds(); toast('✅ تم حفظ التعديلات');
+  const oos=document.getElementById('edit-oos-'+id).checked;
+  const updateData = { discount:newDisc, out_of_stock:oos };
+  if(newPrice){ updateData.price=newPrice; updateData.orig_price=pNum(newPrice); }
+  toast('⏳ جاري الحفظ...');
+  const result = await db(`products?id=eq.${id}`, 'PATCH', updateData);
+  if(result!==null){ await loadProducts(); renderAProds(); editId=null; toast('✅ تم حفظ التعديلات'); }
+  else toast('❌ خطأ في الحفظ');
 }
+
 function removeProdSize(pid,si){
   const p=products.find(x=>x.id===pid); if(!p)return;
-  p.sizes.splice(si,1); renderAProds();
-  toast('تم حذف المقاس');
+  p.sizes.splice(si,1);
+  db(`products?id=eq.${pid}`,'PATCH',{sizes:p.sizes}).then(()=>{ renderAProds(); toast('تم حذف المقاس'); });
 }
 function addProdSize(pid){
   const inp=document.getElementById('edit-sz-inp-'+pid);
   const v=inp.value.trim(); if(!v)return;
   const p=products.find(x=>x.id===pid); if(!p)return;
   if(p.sizes.includes(v)){ toast('المقاس موجود'); return; }
-  p.sizes.push(v); inp.value=''; renderAProds();
+  p.sizes.push(v); inp.value='';
+  db(`products?id=eq.${pid}`,'PATCH',{sizes:p.sizes}).then(()=>{ renderAProds(); });
 }
-function delProd(id){ products=products.filter(p=>p.id!==id); renderProds(); renderAProds(); toast('تم حذف المنتج'); }
+
+async function delProd(id){
+  if(!confirm('هل تريدين حذف هذا المنتج؟')) return;
+  const result = await db(`products?id=eq.${id}`,'DELETE');
+  if(result!==null){ await loadProducts(); renderAProds(); toast('تم حذف المنتج'); }
+  else toast('❌ خطأ في الحذف');
+}
 
 function renderAProds(){
   const el=document.getElementById('a-prods-list');
@@ -1025,9 +1073,9 @@ function renderAProds(){
   el.innerHTML=`<p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem">${products.length} منتج</p>`+
     products.map(p=>`
       <div class="a-prod-row">
-        <img src="${p.imgs[0]}" alt="${p.name}" onerror="this.src='${FB}'">
+        <img src="${p.imgs[0]||''}" alt="${p.name}" onerror="this.src='https://placehold.co/48x60/F5EAE7/C9908A?text=نور'">
         <div class="inf">
-          <span>${p.name}</span>
+          <span>${p.name}${p.outOfStock?' 🔴':''}</span>
           <small>${p.price}${p.discount?' — حسم '+p.discount+'%':''} | مقاسات: ${p.sizes.length?p.sizes.join(', '):'لا يوجد'}</small>
         </div>
         <div class="a-prod-actions">
@@ -1038,41 +1086,45 @@ function renderAProds(){
       ${editId===p.id?`
       <div class="edit-panel">
         <h4>تعديل: ${p.name}</h4>
-        <div class="edit-row"><label>السعر الأصلي</label><input id="edit-price-${p.id}" value="${p.price}" placeholder="${p.price}"></div>
-        <div class="edit-row"><label>الحسم %</label><input id="edit-disc-${p.id}" type="number" value="${p.discount}" min="0" max="99" placeholder="0"></div>
-        <div class="oos-toggle"><input type="checkbox" id="edit-oos-${p.id}" ${p.outOfStock?'checked':''}><label for="edit-oos-${p.id}">نفذت الكمية (Out of Stock)</label></div>
-        <button class="edit-save" onclick="saveEdit(${p.id})">حفظ التعديلات ✓</button>
+        <div class="edit-row"><label>السعر</label><input id="edit-price-${p.id}" value="${p.price}"></div>
+        <div class="edit-row"><label>الحسم %</label><input id="edit-disc-${p.id}" type="number" value="${p.discount}" min="0" max="99"></div>
+        <div class="oos-toggle"><input type="checkbox" id="edit-oos-${p.id}" ${p.outOfStock?'checked':''}><label for="edit-oos-${p.id}">نفذت الكمية</label></div>
+        <button class="edit-save" onclick="saveEdit(${p.id})">حفظ ✓</button>
         <div style="margin-top:1rem">
-          <div style="font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">المقاسات المتاحة</div>
+          <div style="font-size:.75rem;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem">المقاسات</div>
           <div style="display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.5rem">
             ${p.sizes.map((s,si)=>`<div class="sz-tag">${s}<button onclick="removeProdSize(${p.id},${si})">×</button></div>`).join('')}
-            ${p.sizes.length===0?'<span style="font-size:.8rem;color:var(--muted)">لا توجد مقاسات</span>':''}
           </div>
           <div class="sz-add-row">
-            <input id="edit-sz-inp-${p.id}" placeholder="أضف مقاساً جديداً" onkeydown="if(event.key==='Enter'){event.preventDefault();addProdSize(${p.id})}">
-            <button onclick="addProdSize(${p.id})">+ إضافة</button>
+            <input id="edit-sz-inp-${p.id}" placeholder="أضف مقاساً">
+            <button onclick="addProdSize(${p.id})">+</button>
           </div>
         </div>
       </div>`:''}
     `).join('');
 }
 
-function renderAOrders(){
+// ── LOAD ORDERS FROM SUPABASE ──
+async function renderAOrders(){
   const el=document.getElementById('a-orders-list');
-  if(!orders.length){ el.innerHTML='<div class="no-data">لا توجد طلبات بعد 🌸<br><small>ستظهر الطلبات هنا بعد تأكيدها</small></div>'; return; }
-  el.innerHTML=orders.slice().reverse().map(o=>`
+  el.innerHTML='<p class="no-data">⏳ جاري تحميل الطلبات...</p>';
+  const data = await db('orders?select=*&order=created_at.desc');
+  if(!data||!data.length){ el.innerHTML='<div class="no-data">لا توجد طلبات بعد 🌸</div>'; return; }
+  el.innerHTML=data.map(o=>`
     <div class="o-card">
-      <h4>${o.id} — ${o.name}</h4>
-      <p>📞 ${o.phone} | 📍 ${o.zone}${o.shipCo?' — '+o.shipCo:''}</p>
-      <p>🏠 ${o.addr}</p>
+      <h4>${o.id} — ${o.customer_name}</h4>
+      <p>📞 ${o.phone} | 📍 ${o.zone}${o.ship_company?' — '+o.ship_company:''}</p>
+      <p>🏠 ${o.address}</p>
       ${o.notes?`<p>📝 ${o.notes}</p>`:''}
-      <p>🕐 ${o.date}</p>
-      <div class="o-items">${o.items.map(i=>`${i.name}${i.size?' ('+i.size+')':''} × ${i.qty} — ${i.price}`).join('<br>')}</div>
-      <div class="o-tot">المجموع: ${fmt(o.sub)} + توصيل: ${fmt(o.del)} = <strong>${fmt(o.total)}</strong></div>
+      <p>🕐 ${new Date(o.created_at).toLocaleString('ar-SY')}</p>
+      <div class="o-items">${(o.items||[]).map(i=>`${i.name}${i.size?' ('+i.size+')':''} × ${i.qty} — ${i.price}`).join('<br>')}</div>
+      <div class="o-tot">المجموع: ${fmt(o.subtotal)} + توصيل: ${fmt(o.delivery)} = <strong>${fmt(o.total)}</strong></div>
     </div>`).join('');
 }
 
-renderProds();
+// INIT
+showLoading(true);
+loadProducts();
 </script>
 </body>
 </html>
