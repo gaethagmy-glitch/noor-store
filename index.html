@@ -470,7 +470,7 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
     <h4>خدمة العملاء</h4>
     <ul>
       <li><span onclick="toast('سياسة الاستبدال: خلال 48 ساعة من الاستلام 🌸')">سياسة الاستبدال</span></li>
-      <li><span onclick="toast('دمشق: 25,000 ل.س | ريف: 45,000 ل.س | محافظات: حسب شركة الشحن')">أجور التوصيل</span></li>
+      <li><span onclick="toast('دمشق: 25,000 ل.س | ريف: 50,000 ل.س | محافظات: حسب شركة الشحن')">أجور التوصيل</span></li>
       <li><span onclick="toast('للمساعدة في المقاسات تواصلي معنا عبر واتساب 📏')">دليل المقاسات</span></li>
       <li><span onclick="openCart()">متابعة الطلب</span></li>
     </ul>
@@ -478,10 +478,8 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
   <div>
     <h4>تواصلي معنا</h4>
     <ul>
-      <li><a href="https://instagram.com" target="_blank">انستقرام</a></li>
-      <li><a href="https://tiktok.com" target="_blank">تيك توك</a></li>
+      <li><a href="https://www.instagram.com/noor.t.turkish?igsh=MXZ0a2c4azM4cnRxYw==" target="_blank">انستقرام</a></li>
       <li><span onclick="openWa()">واتساب</span></li>
-      <li><a href="mailto:Noor.t.alajmi@gmail.com">البريد الإلكتروني</a></li>
     </ul>
   </div>
 </footer>
@@ -655,7 +653,7 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 <script>
 // ── CONFIG ──
 const PASS = 'Nn0989501120';
-const DEL = { damascus:25000, rural:45000, govs:null }; // govs = شركة شحن
+const DEL = { damascus:25000, rural:50000, govs:null }; // govs = شركة شحن
 const WA = '963981112670';
 const FB = '/mnt/user-data/uploads/6021502995075370096.jpg';
 
@@ -840,8 +838,8 @@ function selShip(co){
 }
 function getDeliveryFee(zone){
   if(zone==='damascus') return 25000;
-  if(zone==='rural') return 45000;
-  if(zone==='govs') return 50000; // شحن محافظات عبر شركة
+  if(zone==='rural') return 50000;
+  if(zone==='govs') return "حسب شركة الشحن";  // شحن محافظات عبر شركة
   return 0;
 }
 function getZoneLabel(zone){
