@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Noor.t.Turkish — أزياء محجبات تركية راقية</title>
+<meta name="description" content="متجر نور للأزياء التركية الراقية — ملابس محجبات تركية أصيلة، توصيل لجميع أنحاء سوريا">
+<meta name="keywords" content="ملابس محجبات، أزياء تركية، عباءات تركية، فساتين محجبات، سوريا، دمشق">
+<meta name="author" content="Noor.t.Turkish">
+<meta property="og:title" content="Noor.t.Turkish — أزياء محجبات تركية راقية">
+<meta property="og:description" content="أزياء تركية راقية للمحجبة الواثقة — توصيل لكل سوريا">
+<meta property="og:image" content="https://i.ibb.co/bjnJw6JS/6025966982219369438-1.jpg">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/jpeg" href="https://i.ibb.co/bjnJw6JS/6025966982219369438-1.jpg">
+<link rel="apple-touch-icon" href="https://i.ibb.co/bjnJw6JS/6025966982219369438-1.jpg">
 <link href="https://i.ibb.co/YFhjr5wb/5821119118328317723.jpg" rel="stylesheet">
 <style>
 :root{
@@ -285,6 +295,35 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);z-index:500;background:var(--charcoal);color:#fff;padding:.9rem 1.8rem;font-size:.85rem;display:none;align-items:center;gap:.7rem;border-bottom:3px solid var(--rose);white-space:nowrap;pointer-events:none;}
 .toast.show{display:flex;}
 
+/* DARK MODE */
+body.dark{background:#1a1210;color:#e8d5cf;}
+body.dark nav{background:rgba(26,18,16,0.96);}
+body.dark .prod-modal,body.dark .co-modal,body.dark .admin-box,body.dark .success-box,body.dark .cancel-box,body.dark .rating-box,body.dark .prod-rating-box{background:#1f1714;}
+body.dark .cart-panel{background:#1f1714;}
+body.dark .fg input,body.dark .fg select,body.dark .fg textarea,body.dark .afg input,body.dark .afg textarea,body.dark .afg select,body.dark .cancel-box input,body.dark .rating-box textarea,body.dark .prod-rating-box textarea,body.dark .prod-rating-box input{background:#2a1f1d;color:#e8d5cf;border-color:#4a3530;}
+body.dark .o-card{background:#2a1f1d;}
+body.dark footer{background:#0f0b0a;}
+body.dark .hero-text,.about-txt{color:#e8d5cf;}
+/* DARK BTN */
+.dark-btn{background:none;border:1px solid var(--rose-light);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:all .3s;}
+.dark-btn:hover{background:var(--rose);border-color:var(--rose);}
+/* LANG BTN */
+.lang-btn{background:none;border:1px solid var(--rose-light);padding:.3rem .7rem;font-family:'Tajawal',sans-serif;font-size:.78rem;color:var(--muted);cursor:pointer;transition:all .3s;}
+.lang-btn:hover{background:var(--rose);color:#fff;border-color:var(--rose);}
+/* FAV BTN */
+.fav-btn{position:absolute;top:.6rem;left:.6rem;background:rgba(255,255,255,.88);border:none;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;z-index:2;transition:transform .2s;}
+.fav-btn:hover{transform:scale(1.15);}
+/* SHARE BTN */
+.share-btn{width:100%;padding:.5rem;background:transparent;border:1px solid var(--rose-light);color:var(--muted);font-family:'Tajawal',sans-serif;font-size:.78rem;cursor:pointer;margin-top:.5rem;transition:all .2s;}
+.share-btn:hover{background:var(--rose-pale);}
+/* STARS */
+.stars-wrap{display:flex;gap:.3rem;justify-content:center;margin:1rem 0;}
+.star-btn,.prod-star-btn{background:none;border:none;font-size:2rem;cursor:pointer;color:#ccc;transition:color .15s;padding:.1rem;}
+/* RATING / CANCEL MODALS */
+.rating-box,.prod-rating-box,.cancel-box{background:var(--ivory);max-width:420px;width:100%;padding:2.5rem 2rem;animation:fadeUp .3s ease;position:relative;border-radius:4px;}
+.rating-box h3,.prod-rating-box h3,.cancel-box h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--charcoal);margin-bottom:.5rem;}
+.rating-box p,.prod-rating-box p,.cancel-box p{font-size:.85rem;color:var(--muted);margin-bottom:1rem;line-height:1.7;}
+.rating-box textarea,.prod-rating-box textarea,.prod-rating-box input,.cancel-box input{width:100%;padding:.75rem 1rem;border:1px solid var(--rose-light);background:#fff;font-family:'Tajawal',sans-serif;font-size:.9rem;color:var(--text);outline:none;margin-bottom:.8rem;resize:vertical;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 @keyframes zoomIn{from{transform:scale(1.08);opacity:.7;}to{transform:scale(1);opacity:1;}}
 @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
@@ -373,12 +412,15 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
     <span class="nav-logo-text">Noor<span>.</span>T<span>.</span>Turkish</span>
   </div>
   <ul class="nav-links">
-    <li><a onclick="goto('products')">المجموعة</a></li>
-    <li><a onclick="goto('about')">قصتنا</a></li>
-    <li><a onclick="goto('features')">خدماتنا</a></li>
-    <li><a onclick="goto('contact')">تواصلي</a></li>
+    <li><a id="nav-collection" onclick="goto('products')">المجموعة</a></li>
+    <li><a id="nav-about" onclick="goto('about')">قصتنا</a></li>
+    <li><a id="nav-services" onclick="goto('features')">خدماتنا</a></li>
+    <li><a id="nav-contact" onclick="goto('contact')">تواصلي</a></li>
   </ul>
   <div class="nav-actions">
+    <button class="lang-btn" id="lang-btn" onclick="toggleLang()">EN</button>
+    <button class="dark-btn" id="dark-btn" onclick="toggleDark()">🌙</button>
+    <button class="dark-btn" onclick="openFavs()" title="المفضلة" style="font-size:.9rem">❤️</button>
     <button class="btn-admin" onclick="openAdmin()">لوحة التحكم</button>
     <div class="cart-btn" onclick="openCart()">
       <span>السلة</span>
@@ -390,12 +432,12 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 <!-- HERO -->
 <section class="hero">
   <div class="hero-text">
-    <p class="hero-eyebrow">مجموعة ربيع ٢٠٢٥</p>
-    <h1 class="hero-title">أناقة<br><em>تُلهم</em><br>ثقة تتجلّى</h1>
-    <p class="hero-desc">أزياء تركية راقية تجمع بين الأصالة والحداثة، صُممت للمحجبة التي تحمل جمالها بثقة وفخر.</p>
+    <p class="hero-eyebrow" id="hero-eyebrow">مجموعة ربيع ٢٠٢٥</p>
+    <h1 class="hero-title" id="hero-title">أناقة<br><em>تُلهم</em><br>ثقة تتجلّى</h1>
+    <p class="hero-desc" id="hero-desc">أزياء تركية راقية تجمع بين الأصالة والحداثة، صُممت للمحجبة التي تحمل جمالها بثقة وفخر.</p>
     <div class="hero-cta">
-      <button class="btn-primary" onclick="goto('products')">تسوقي الآن</button>
-      <button class="btn-outline" onclick="goto('about')">اعرفي أكثر</button>
+      <button class="btn-primary" id="hero-shop-btn" onclick="goto('products')">تسوقي الآن</button>
+      <button class="btn-outline" id="hero-about-btn" onclick="goto('about')">اعرفي أكثر</button>
     </div>
   </div>
   <div class="hero-img-side">
@@ -420,8 +462,8 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 <!-- PRODUCTS -->
 <section class="section" id="products">
   <div class="sec-header">
-    <p class="sec-eyebrow">تشكيلتنا الحصرية</p>
-    <h2 class="sec-title">المجموعة الجديدة</h2>
+    <p class="sec-eyebrow" id="prod-eyebrow">تشكيلتنا الحصرية</p>
+    <h2 class="sec-title" id="prod-title">المجموعة الجديدة</h2>
   </div>
   <div class="products-grid" id="products-grid"></div>
 </section>
@@ -430,24 +472,24 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
 <section class="about-strip" id="about">
   <img src="https://i.ibb.co/C5VdHTdj/5800816318293853859.jpg" alt="Noor Fashion" class="about-img">
   <div class="about-txt">
-    <p class="sec-eyebrow">قصتنا</p>
-    <h2 class="sec-title">نور — حيث تلتقي الأناقة بالأصالة</h2>
-    <p>نؤمن بأن أزياء المحجبات ليست قيداً، بل هي تعبير عن هوية وجمال لا حدود له. نجلب لك أرقى التصاميم التركية التي تجمع بين الراحة والرقي.</p>
-    <button class="btn-primary" style="margin-top:2rem;align-self:flex-start" onclick="goto('products')">تسوقي الآن</button>
+    <p class="sec-eyebrow" id="about-eyebrow">قصتنا</p>
+    <h2 class="sec-title" id="about-title">نور — حيث تلتقي الأناقة بالأصالة</h2>
+    <p id="about-desc">نؤمن بأن أزياء المحجبات ليست قيداً، بل هي تعبير عن هوية وجمال لا حدود له. نجلب لك أرقى التصاميم التركية التي تجمع بين الراحة والرقي.</p>
+    <button class="btn-primary" id="about-shop-btn" style="margin-top:2rem;align-self:flex-start" onclick="goto('products')">تسوقي الآن</button>
   </div>
 </section>
 
 <!-- FEATURES -->
 <section class="section features-bg" id="features">
   <div class="sec-header">
-    <p class="sec-eyebrow">لماذا نور؟</p>
-    <h2 class="sec-title">خدماتنا</h2>
+    <p class="sec-eyebrow" id="feat-eyebrow">لماذا نور؟</p>
+    <h2 class="sec-title" id="feat-title">خدماتنا</h2>
   </div>
   <div class="feats">
-    <div class="feat"><div class="feat-icon">🚚</div><h3>توصيل لكل سوريا</h3><p>نوصل لدمشق والريف والمحافظات مع متابعة الشحنة</p></div>
-    <div class="feat"><div class="feat-icon">✨</div><h3>جودة تركية أصيلة</h3><p>أقمشة فاخرة من أفضل المصانع التركية</p></div>
-    <div class="feat"><div class="feat-icon">🔄</div><h3>استبدال مريح</h3><p>سياسة استبدال مرنة تضمن رضاك التام</p></div>
-    <div class="feat"><div class="feat-icon">💬</div><h3>خدمة شخصية</h3><p>نساعدك في اختيار الحجم والطراز المناسب</p></div>
+    <div class="feat"><div class="feat-icon">🚚</div><h3 id="f1t">توصيل لكل سوريا</h3><p id="f1d">نوصل لدمشق والريف والمحافظات مع متابعة الشحنة</p></div>
+    <div class="feat"><div class="feat-icon">✨</div><h3 id="f2t">جودة تركية أصيلة</h3><p id="f2d">أقمشة فاخرة من أفضل المصانع التركية</p></div>
+    <div class="feat"><div class="feat-icon">🔄</div><h3 id="f3t">استبدال مريح</h3><p id="f3d">سياسة استبدال مرنة تضمن رضاك التام</p></div>
+    <div class="feat"><div class="feat-icon">💬</div><h3 id="f4t">خدمة شخصية</h3><p id="f4d">نساعدك في اختيار الحجم والطراز المناسب</p></div>
   </div>
 </section>
 
@@ -504,6 +546,8 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
         <div class="sizes" id="mod-sizes"></div>
       </div>
       <button class="btn-primary" style="width:100%;margin-top:auto" onclick="addFromModal()">أضيفي للسلة 🛍️</button>
+      <button class="share-btn" onclick="shareProduct(curProd?.id)">🔗 مشاركة المنتج</button>
+      <button class="share-btn" style="margin-top:.3rem" onclick="openProdRating(curProd?.id)">⭐ تقييم المنتج</button>
     </div>
   </div>
 </div>
@@ -566,6 +610,8 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
     <div class="order-num" id="success-num"></div>
     <p style="font-size:.78rem">احتفظي برقم الطلب للمتابعة</p>
     <button class="btn-primary" style="margin-top:1.5rem;width:100%" onclick="closeSuccess()">متابعة التسوق</button>
+    <button class="share-btn" style="margin-top:.5rem" onclick="closeSuccess();openCancelOrder()">إلغاء الطلب خلال ساعتين</button>
+    <button class="share-btn" style="margin-top:.3rem" onclick="closeSuccess();setTimeout(openRating,300)">⭐ قيّمي تجربتك</button>
   </div>
 </div>
 
@@ -645,6 +691,68 @@ footer ul li span:hover,footer ul li a:hover{color:var(--rose-light);}
   </div>
 </div>
 
+<!-- RATING MODAL -->
+<div class="overlay" id="rating-overlay" onclick="closeRating(event)">
+  <div class="rating-box">
+    <button class="modal-close-btn" onclick="closeRating()">✕</button>
+    <h3>قيّمي تجربتك 🌸</h3>
+    <p>رأيك يساعدنا نتحسن لك أكثر</p>
+    <div class="stars-wrap">
+      <button class="star-btn" onclick="setRating(5)">★</button>
+      <button class="star-btn" onclick="setRating(4)">★</button>
+      <button class="star-btn" onclick="setRating(3)">★</button>
+      <button class="star-btn" onclick="setRating(2)">★</button>
+      <button class="star-btn" onclick="setRating(1)">★</button>
+    </div>
+    <textarea id="rating-comment" rows="3" placeholder="اكتبي تعليقك (اختياري)..."></textarea>
+    <button class="btn-primary" style="width:100%" onclick="submitRating()">إرسال التقييم</button>
+  </div>
+</div>
+
+<!-- PRODUCT RATING MODAL -->
+<div class="overlay" id="prod-rating-overlay" onclick="closeProdRating(event)">
+  <div class="prod-rating-box">
+    <button class="modal-close-btn" onclick="closeProdRating()">✕</button>
+    <h3>تقييم المنتج ⭐</h3>
+    <p>شاركي رأيك لمساعدة الزبائن الأخريات</p>
+    <input id="prod-rating-name" placeholder="اسمك (اختياري)">
+    <div class="stars-wrap">
+      <button class="prod-star-btn" onclick="setProdRating(5)">★</button>
+      <button class="prod-star-btn" onclick="setProdRating(4)">★</button>
+      <button class="prod-star-btn" onclick="setProdRating(3)">★</button>
+      <button class="prod-star-btn" onclick="setProdRating(2)">★</button>
+      <button class="prod-star-btn" onclick="setProdRating(1)">★</button>
+    </div>
+    <textarea id="prod-rating-comment" rows="3" placeholder="رأيك بالمنتج..."></textarea>
+    <button class="btn-primary" style="width:100%" onclick="submitProdRating()">إرسال التقييم</button>
+  </div>
+</div>
+
+<!-- CANCEL ORDER MODAL -->
+<div class="overlay" id="cancel-overlay" onclick="closeCancelOrder(event)">
+  <div class="cancel-box">
+    <button class="modal-close-btn" onclick="closeCancelOrder()">✕</button>
+    <h3>إلغاء الطلب</h3>
+    <p>يمكنك إلغاء طلبك خلال ساعتين فقط من وقت الطلب. أدخلي رقم الطلب ورقم هاتفك للتأكيد.</p>
+    <input id="cancel-oid" placeholder="رقم الطلب (مثال: NR-123456)">
+    <input id="cancel-phone" placeholder="رقم هاتفك اللي حطيتيه بالطلب">
+    <button class="btn-primary" style="width:100%" onclick="submitCancelOrder()">تأكيد الإلغاء</button>
+  </div>
+</div>
+
+<!-- FAVORITES PAGE -->
+<div class="overlay" id="fav-overlay" onclick="closeFavs(event)">
+  <div class="admin-box" style="max-width:700px">
+    <div class="admin-head">
+      <h2>المفضلة ❤️</h2>
+      <button onclick="closeFavs()">✕</button>
+    </div>
+    <div style="padding:1.5rem 2rem">
+      <div id="fav-grid" class="products-grid" style="grid-template-columns:repeat(3,1fr);gap:1rem"></div>
+    </div>
+  </div>
+</div>
+
 <!-- WHATSAPP -->
 <button class="wa-fab" onclick="openWa()" title="واتساب">💬</button>
 <!-- TOAST -->
@@ -694,8 +802,15 @@ function toast(msg,ms=3200){
   el.classList.add('show');
   setTimeout(()=>el.classList.remove('show'),ms);
 }
-function pNum(s){ return parseInt((s||'0').replace(/[^0-9]/g,''))||0; }
-function fmt(n){ return n.toLocaleString('ar-SY')+' ل.س'; }
+function pNum(s){
+  if(!s) return 0;
+  // تحويل الأرقام العربية للإنجليزية
+  const normalized = s.toString()
+    .replace(/[٠١٢٣٤٥٦٧٨٩]/g, d => '٠١٢٣٤٥٦٧٨٩'.indexOf(d))
+    .replace(/[۰۱۲۳۴۵۶۷۸۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d));
+  return parseInt(normalized.replace(/[^0-9]/g,''))||0;
+}
+function fmt(n){ return Number(n).toLocaleString('en-US')+' ل.س'; }
 function lock(){ document.body.style.overflow='hidden'; }
 function unlock(){ document.body.style.overflow=''; }
 function calcDiscounted(orig,pct){ return Math.round(orig*(1-pct/100)); }
@@ -744,6 +859,7 @@ function renderProds(){
           <button class="btn-det" onclick="event.stopPropagation();openProd(${p.id})">التفاصيل</button>
           <button onclick="event.stopPropagation();quickAdd(${p.id})">أضيفي للسلة</button>
         </div>`}
+        <button class="fav-btn" onclick="event.stopPropagation();toggleFav(${p.id})" title="مفضلة">${isFav(p.id)?'❤️':'🤍'}</button>
       </div>
       <div class="prod-info">
         <h3 class="prod-name">${p.name}</h3>
@@ -1118,10 +1234,277 @@ async function renderAOrders(){
       <p>🕐 ${new Date(o.created_at).toLocaleString('ar-SY')}</p>
       <div class="o-items">${(o.items||[]).map(i=>`${i.name}${i.size?' ('+i.size+')':''} × ${i.qty} — ${i.price}`).join('<br>')}</div>
       <div class="o-tot">المجموع: ${fmt(o.subtotal)} + توصيل: ${fmt(o.delivery)} = <strong>${fmt(o.total)}</strong></div>
+      <div style="display:flex;gap:.5rem;margin-top:.8rem;">
+        <button onclick="confirmOrderWa('${o.id}','${o.customer_name}','${o.phone}')" style="flex:1;padding:.5rem;background:#25D366;color:#fff;border:none;font-family:'Tajawal',sans-serif;font-size:.82rem;cursor:pointer;border-radius:4px;">✅ تأكيد الطلب</button>
+        <button onclick="cancelOrderWa('${o.id}','${o.customer_name}','${o.phone}')" style="flex:1;padding:.5rem;background:#c0706a;color:#fff;border:none;font-family:'Tajawal',sans-serif;font-size:.82rem;cursor:pointer;border-radius:4px;">❌ إلغاء الطلب</button>
+      </div>
     </div>`).join('');
 }
 
-// INIT
+// ── واتساب تأكيد/إلغاء طلب ──
+function confirmOrderWa(id, name, phone){
+  const msg = encodeURIComponent(`🌸 *تأكيد طلبك من نور*\n\nأهلاً ${name}،\nتم تأكيد طلبك رقم *${id}* بنجاح ✅\nسيصلك خلال 2-3 أيام.\nشكراً لثقتك بنا 💕`);
+  window.open(`https://wa.me/963${phone.replace(/^0/,'')}?text=${msg}`,'_blank');
+}
+function cancelOrderWa(id, name, phone){
+  const msg = encodeURIComponent(`نعتذر منك ${name} 🙏\nللأسف تم إلغاء طلبك رقم *${id}*.\nللاستفسار تواصلي معنا مباشرة على هذا الرقم.\n— فريق نور 🌸`);
+  window.open(`https://wa.me/963${phone.replace(/^0/,'')}?text=${msg}`,'_blank');
+}
+
+// ── إلغاء طلب من الزبونة ──
+function openCancelOrder(){
+  document.getElementById('cancel-overlay').classList.add('open'); lock();
+}
+function closeCancelOrder(e){
+  if(!e||e.target===document.getElementById('cancel-overlay')||e.target.classList.contains('modal-close-btn')){
+    document.getElementById('cancel-overlay').classList.remove('open'); unlock();
+  }
+}
+async function submitCancelOrder(){
+  const oid = document.getElementById('cancel-oid').value.trim();
+  const phone = document.getElementById('cancel-phone').value.trim();
+  if(!oid||!phone){ toast('⚠️ أدخلي رقم الطلب والهاتف'); return; }
+  const data = await db(`orders?id=eq.${oid}&phone=eq.${phone}&select=*`);
+  if(!data||!data.length){ toast('❌ الطلب غير موجود أو رقم الهاتف غير صحيح'); return; }
+  const order = data[0];
+  const created = new Date(order.created_at);
+  const now = new Date();
+  const diffHrs = (now - created) / 1000 / 3600;
+  if(diffHrs > 2){ toast('❌ انتهت مدة الإلغاء (ساعتان من الطلب)'); return; }
+  await db(`orders?id=eq.${oid}`,'PATCH',{ status:'cancelled' });
+  closeCancelOrder();
+  toast('✅ تم إلغاء طلبك بنجاح');
+}
+
+// ── تقييم الموقع ──
+let siteRating = 0;
+function openRating(){
+  document.getElementById('rating-overlay').classList.add('open'); lock();
+}
+function closeRating(e){
+  if(!e||e.target===document.getElementById('rating-overlay')||e.target.classList.contains('modal-close-btn')){
+    document.getElementById('rating-overlay').classList.remove('open'); unlock();
+  }
+}
+function setRating(n){
+  siteRating = n;
+  document.querySelectorAll('.star-btn').forEach((s,i)=>{
+    s.style.color = i < n ? '#B8955A' : '#ccc';
+  });
+}
+async function submitRating(){
+  if(!siteRating){ toast('⚠️ اختاري تقييمك أولاً'); return; }
+  const comment = document.getElementById('rating-comment').value.trim();
+  await db('ratings','POST',{ stars: siteRating, comment, created_at: new Date().toISOString() });
+  closeRating();
+  toast('🌸 شكراً على تقييمك!');
+}
+
+// ── تقييم منتج ──
+let prodRating = 0;
+let ratingProdId = null;
+function openProdRating(id){
+  ratingProdId = id; prodRating = 0;
+  document.querySelectorAll('.prod-star-btn').forEach(s=>s.style.color='#ccc');
+  document.getElementById('prod-rating-overlay').classList.add('open'); lock();
+}
+function closeProdRating(e){
+  if(!e||e.target===document.getElementById('prod-rating-overlay')||e.target.classList.contains('modal-close-btn')){
+    document.getElementById('prod-rating-overlay').classList.remove('open'); unlock();
+  }
+}
+function setProdRating(n){
+  prodRating = n;
+  document.querySelectorAll('.prod-star-btn').forEach((s,i)=>{ s.style.color = i < n ? '#B8955A' : '#ccc'; });
+}
+async function submitProdRating(){
+  if(!prodRating){ toast('⚠️ اختاري تقييمك أولاً'); return; }
+  const comment = document.getElementById('prod-rating-comment').value.trim();
+  const name = document.getElementById('prod-rating-name').value.trim() || 'زبونة';
+  await db('product_ratings','POST',{ product_id: ratingProdId, stars: prodRating, comment, reviewer: name });
+  closeProdRating();
+  toast('🌸 شكراً على تقييمك!');
+}
+
+// ── مشاركة منتج ──
+function shareProduct(id){
+  const p = products.find(x=>x.id===id); if(!p) return;
+  const url = window.location.href.split('?')[0] + '?product=' + id;
+  if(navigator.share){
+    navigator.share({ title: p.name, text: p.name + ' — ' + p.price, url });
+  } else {
+    navigator.clipboard.writeText(url).then(()=>toast('✅ تم نسخ رابط المنتج'));
+  }
+}
+
+// ── مفضلة ──
+function toggleFav(id){
+  let favs = JSON.parse(localStorage.getItem('noor_favs')||'[]');
+  if(favs.includes(id)){ favs = favs.filter(x=>x!==id); toast('تم الإزالة من المفضلة'); }
+  else { favs.push(id); toast('❤️ تم الإضافة للمفضلة'); }
+  localStorage.setItem('noor_favs', JSON.stringify(favs));
+  renderProds();
+}
+function isFav(id){ return JSON.parse(localStorage.getItem('noor_favs')||'[]').includes(id); }
+
+// ── دارك مود ──
+function toggleDark(){
+  document.body.classList.toggle('dark');
+  localStorage.setItem('noor_dark', document.body.classList.contains('dark') ? '1' : '0');
+  document.getElementById('dark-btn').textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+}
+if(localStorage.getItem('noor_dark')==='1'){ document.body.classList.add('dark'); document.addEventListener('DOMContentLoaded',()=>{ const b=document.getElementById('dark-btn'); if(b) b.textContent='☀️'; }); }
+
+// ── اللغة ──
+const TR = {
+  ar:{
+    navCollection:'المجموعة', navAbout:'قصتنا', navServices:'خدماتنا', navContact:'تواصلي',
+    adminBtn:'لوحة التحكم', cartBtn:'السلة',
+    heroEyebrow:'مجموعة ربيع ٢٠٢٥',
+    heroTitle:'أناقة<br><em>تُلهم</em><br>ثقة تتجلّى',
+    heroDesc:'أزياء تركية راقية تجمع بين الأصالة والحداثة، صُممت للمحجبة التي تحمل جمالها بثقة وفخر.',
+    heroShop:'تسوقي الآن', heroAbout:'اعرفي أكثر',
+    prodEyebrow:'تشكيلتنا الحصرية', prodTitle:'المجموعة الجديدة',
+    aboutEyebrow:'قصتنا', aboutTitle:'نور — حيث تلتقي الأناقة بالأصالة',
+    aboutDesc:'نؤمن بأن أزياء المحجبات ليست قيداً، بل هي تعبير عن هوية وجمال لا حدود له.',
+    aboutShop:'تسوقي الآن',
+    featEyebrow:'لماذا نور؟', featTitle:'خدماتنا',
+    f1t:'توصيل لكل سوريا', f1d:'نوصل لدمشق والريف والمحافظات مع متابعة الشحنة',
+    f2t:'جودة تركية أصيلة', f2d:'أقمشة فاخرة من أفضل المصانع التركية',
+    f3t:'استبدال مريح', f3d:'سياسة استبدال مرنة تضمن رضاك التام',
+    f4t:'خدمة شخصية', f4d:'نساعدك في اختيار الحجم والطراز المناسب',
+    addToCart:'أضيفي للسلة 🛍️', sizeLabel:'اختاري المقاس',
+    details:'التفاصيل', share:'🔗 مشاركة المنتج', rate:'⭐ تقييم المنتج',
+    cartTitle:'سلتي 🛍️', checkout:'إتمام الطلب ←',
+    dir:'rtl', lang:'ar'
+  },
+  en:{
+    navCollection:'Collection', navAbout:'Our Story', navServices:'Services', navContact:'Contact',
+    adminBtn:'Dashboard', cartBtn:'Cart',
+    heroEyebrow:'Spring 2025 Collection',
+    heroTitle:'Elegance<br><em>that Inspires</em><br>Confidence',
+    heroDesc:'Premium Turkish fashion crafted for the confident hijabi who carries her beauty with grace and pride.',
+    heroShop:'Shop Now', heroAbout:'Learn More',
+    prodEyebrow:'Our Exclusive Collection', prodTitle:'New Arrivals',
+    aboutEyebrow:'Our Story', aboutTitle:'Noor — Where Elegance Meets Authenticity',
+    aboutDesc:'We believe modest fashion is not a constraint, but an expression of identity and boundless beauty.',
+    aboutShop:'Shop Now',
+    featEyebrow:'Why Noor?', featTitle:'Our Services',
+    f1t:'Delivery Across Syria', f1d:'We deliver to Damascus, suburbs and all governorates',
+    f2t:'Authentic Turkish Quality', f2d:'Premium fabrics from the finest Turkish manufacturers',
+    f3t:'Easy Exchange', f3d:'Flexible exchange policy ensuring your complete satisfaction',
+    f4t:'Personal Service', f4d:'We help you choose the right size and style for you',
+    addToCart:'Add to Cart 🛍️', sizeLabel:'Choose Size',
+    details:'Details', share:'🔗 Share Product', rate:'⭐ Rate Product',
+    cartTitle:'My Cart 🛍️', checkout:'Checkout ←',
+    dir:'ltr', lang:'en'
+  }
+};
+
+let currentLang = localStorage.getItem('noor_lang') || 'ar';
+
+function toggleLang(){
+  currentLang = currentLang === 'ar' ? 'en' : 'ar';
+  localStorage.setItem('noor_lang', currentLang);
+  applyLang();
+}
+
+function applyLang(){
+  const t = TR[currentLang];
+  document.documentElement.lang = t.lang;
+  document.documentElement.dir = t.dir;
+  const lb = document.getElementById('lang-btn');
+  if(lb) lb.textContent = currentLang === 'ar' ? 'EN' : 'ع';
+
+  // Nav
+  const el = (id) => document.getElementById(id);
+  if(el('nav-collection')) el('nav-collection').textContent = t.navCollection;
+  if(el('nav-about')) el('nav-about').textContent = t.navAbout;
+  if(el('nav-services')) el('nav-services').textContent = t.navServices;
+  if(el('nav-contact')) el('nav-contact').textContent = t.navContact;
+
+  // Hero
+  if(el('hero-eyebrow')) el('hero-eyebrow').textContent = t.heroEyebrow;
+  if(el('hero-title')) el('hero-title').innerHTML = t.heroTitle;
+  if(el('hero-desc')) el('hero-desc').textContent = t.heroDesc;
+  if(el('hero-shop-btn')) el('hero-shop-btn').textContent = t.heroShop;
+  if(el('hero-about-btn')) el('hero-about-btn').textContent = t.heroAbout;
+
+  // Products
+  if(el('prod-eyebrow')) el('prod-eyebrow').textContent = t.prodEyebrow;
+  if(el('prod-title')) el('prod-title').textContent = t.prodTitle;
+
+  // About
+  if(el('about-eyebrow')) el('about-eyebrow').textContent = t.aboutEyebrow;
+  if(el('about-title')) el('about-title').textContent = t.aboutTitle;
+  if(el('about-desc')) el('about-desc').textContent = t.aboutDesc;
+  if(el('about-shop-btn')) el('about-shop-btn').textContent = t.aboutShop;
+
+  // Features
+  if(el('feat-eyebrow')) el('feat-eyebrow').textContent = t.featEyebrow;
+  if(el('feat-title')) el('feat-title').textContent = t.featTitle;
+  if(el('f1t')) el('f1t').textContent = t.f1t;
+  if(el('f1d')) el('f1d').textContent = t.f1d;
+  if(el('f2t')) el('f2t').textContent = t.f2t;
+  if(el('f2d')) el('f2d').textContent = t.f2d;
+  if(el('f3t')) el('f3t').textContent = t.f3t;
+  if(el('f3d')) el('f3d').textContent = t.f3d;
+  if(el('f4t')) el('f4t').textContent = t.f4t;
+  if(el('f4d')) el('f4d').textContent = t.f4d;
+
+  // Modal
+  const szLbl = document.querySelector('.size-lbl');
+  if(szLbl) szLbl.textContent = t.sizeLabel;
+  const addBtn = document.querySelector('#prod-overlay .btn-primary');
+  if(addBtn) addBtn.textContent = t.addToCart;
+
+  // Cart
+  const cartH = document.querySelector('.cart-head h3');
+  if(cartH) cartH.textContent = t.cartTitle;
+  const coBtn = document.querySelector('.cart-checkout');
+  if(coBtn) coBtn.textContent = t.checkout;
+
+  // Re-render products to update button texts
+  renderProds();
+}
+
+// ── مفضلة ──
+function openFavs(){
+  const favs = JSON.parse(localStorage.getItem('noor_favs')||'[]');
+  const favProds = products.filter(p => favs.includes(p.id));
+  const grid = document.getElementById('fav-grid');
+  if(!favProds.length){
+    grid.innerHTML='<p style="color:var(--muted);text-align:center;grid-column:1/-1;padding:2rem">ما في منتجات بالمفضلة بعد 🌸</p>';
+  } else {
+    grid.innerHTML = favProds.map(p=>`
+      <div class="product-card" onclick="closeFavs();openProd(${p.id})">
+        <div class="prod-img-wrap">
+          <img src="${p.imgs[0]||''}" alt="${p.name}" onerror="this.src='https://placehold.co/400x500/F5EAE7/C9908A?text=نور'">
+          ${p.tag?`<span class="prod-tag">${p.tag}</span>`:''}
+          <button class="fav-btn" onclick="event.stopPropagation();toggleFav(${p.id});openFavs()" title="إزالة">❤️</button>
+        </div>
+        <div class="prod-info">
+          <h3 class="prod-name">${p.name}</h3>
+          <p class="prod-price">${p.discount?`<del>${p.price}</del> ${fmt(calcDiscounted(p.origPrice,p.discount))}`:p.price}</p>
+        </div>
+      </div>`).join('');
+  }
+  document.getElementById('fav-overlay').classList.add('open'); lock();
+}
+function closeFavs(e){
+  if(!e||e.target===document.getElementById('fav-overlay')){
+    document.getElementById('fav-overlay').classList.remove('open'); unlock();
+  }
+}
+
+// ── حماية من الطلب المزدوج ──
+let orderSubmitting = false;
+const _confirmOrder = confirmOrder;
+confirmOrder = async function(){
+  if(orderSubmitting){ toast('⏳ جاري معالجة طلبك...'); return; }
+  orderSubmitting = true;
+  try { await _confirmOrder(); } finally { setTimeout(()=>{ orderSubmitting=false; },3000); }
+};
 showLoading(true);
 loadProducts();
 </script>
