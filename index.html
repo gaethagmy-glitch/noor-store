@@ -1070,13 +1070,34 @@ function renderNewSizes(){
 }
 
 // images
-function handleImgs(input){
-  const files=Array.from(input.files);
-  files.forEach(f=>{
-    const r=new FileReader();
-    r.onload=e=>{ newProdImgs.push(e.target.result); renderImgPreview(); };
-    r.readAsDataURL(f);
+// ── رفع الصور على Supabase Storage ──
+async function uploadImageToStorage(file){
+  const ext = file.name.split('.').pop() || 'jpg';
+  const fileName = `${Date.now()}_${Math.random().toString(36).slice(2)}.${ext}`;
+  const res = await fetch(`${SUPA_URL}/storage/v1/object/product-images/${fileName}`, {
+    method: 'POST',
+    headers: {
+      'apikey': SUPA_KEY,
+      'Authorization': 'Bearer ' + SUPA_KEY,
+      'Content-Type': file.type || 'image/jpeg',
+      'x-upsert': 'true'
+    },
+    body: file
   });
+  if(!res.ok){ console.error('Upload failed', await res.text()); return null; }
+  return `${SUPA_URL}/storage/v1/object/public/product-images/${fileName}`;
+}
+
+async function handleImgs(input){
+  const files = Array.from(input.files);
+  if(!files.length) return;
+  toast('⏳ جاري رفع الصور...');
+  for(const f of files){
+    const url = await uploadImageToStorage(f);
+    if(url){ newProdImgs.push(url); renderImgPreview(); }
+    else { toast('❌ فشل رفع صورة، حاولي مجدداً'); }
+  }
+  toast(`✅ تم رفع ${newProdImgs.length} صورة`);
   input.value='';
 }
 function removeImg(i){ newProdImgs.splice(i,1); renderImgPreview(); }
